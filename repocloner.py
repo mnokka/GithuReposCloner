@@ -24,7 +24,11 @@ for repo in token.get_user().get_repos():
     
     path = os.path.join(base_dir, repo.name)
     print("Creating path:",path)
-    os.mkdir(path)
-    print ("Starting cloning....")
-    Repo.clone_from(repo.clone_url, path)
-    print ("--------------------------------------------------------")
+    
+    if os.path.exists(path):
+        print(f"WARNING: The directory '{path}' already exists. Skipping clone.")
+    else:
+        os.mkdir(path)
+        print ("Starting cloning:", repo.name)
+        Repo.clone_from(repo.clone_url, path)
+        print ("--------------------------------------------------------")
